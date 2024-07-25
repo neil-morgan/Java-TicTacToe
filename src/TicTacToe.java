@@ -13,7 +13,7 @@ import javax.swing.*;
 // if it was private, other classes would not be able to access it
 public class TicTacToe {
     int boardWith = 600;
-    int boardHeight = 650;
+    int boardHeight = 700;
     String gameName = new String("Tic Tac Toe");
 
     // JFrame frame - declares the type of variable and gives it a name
@@ -23,6 +23,8 @@ public class TicTacToe {
     JLabel textLabel = new JLabel();
     JPanel textPanel = new JPanel();
     JPanel boardPanel = new JPanel();
+    JPanel resetPanel = new JPanel();
+    JButton resetButton = new JButton("Reset");
     JButton[][] board = new JButton[3][3];
 
     String playerX = "X";
@@ -53,8 +55,20 @@ public class TicTacToe {
         boardPanel.setLayout(new GridLayout(3, 3));
         boardPanel.setBackground(Color.darkGray);
 
+        resetButton.setBackground(Color.white);
+        resetButton.setForeground(Color.darkGray);
+        resetButton.setFont(new Font("Arial", Font.BOLD, 50));
+        resetButton.setFocusable(false);
+
+        resetPanel.setLayout(new BorderLayout());
+        resetPanel.setPreferredSize(new Dimension(600, 50)); // Adjust the width and height as needed
+
+        resetPanel.add(resetButton);
+
+
         frame.add(textPanel, BorderLayout.NORTH);
         frame.add(boardPanel);
+        frame.add(resetPanel, BorderLayout.SOUTH);
 
         for (int r = 0; r < 3; r++) {
             for (int c = 0; c < 3; c++) {
@@ -86,6 +100,22 @@ public class TicTacToe {
                 });
             }
         }
+
+        resetButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                for (int r = 0; r < 3; r++) {
+                    for (int c = 0; c < 3; c++) {
+                        board[r][c].setText("");
+                        board[r][c].setBackground(Color.darkGray);
+                        board[r][c].setForeground(Color.darkGray);
+                    }
+                }
+                currentPlayer = playerX;
+                textLabel.setText(currentPlayer + "'s turn");
+                gameOver = false;
+                turns = 0;
+            }
+        });
     }
 
     void checkWinner() {
@@ -156,4 +186,5 @@ public class TicTacToe {
         tile.setBackground(Color.red);
         textLabel.setText("It's a tie!");
     }
+
 };
